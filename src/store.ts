@@ -1,15 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-// Import the user slice reducer to manage user state
 import userReducer from './slices/userSlice';
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     user: userReducer,
   },
 });
 
-// Infer the `RootState` type from the store itself
-
+// Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
+// Export store as default as well
 export default store;
