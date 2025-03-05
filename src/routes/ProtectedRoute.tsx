@@ -1,23 +1,21 @@
 import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 
 interface ProtectedRouteProps {
-  component: React.FC;
-  path: string;
-  exact?: boolean;
+  children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component: Component, ...rest }) => {
-  const userRole = useSelector((state: RootState) => state.user?.role); // Ensure user is defined
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const location = useLocation();
+  const userRole = useSelector((state: RootState) => state.user?.role);
 
-  return (
-    <Route
-      {...rest}
-      element={userRole ? <Component /> : <Navigate to="/login" replace />}
-    />
-  );
+  if (!userRole) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
