@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { 
-  Box, 
-  Button, 
-  TextField, 
-  Typography, 
-  Container, 
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Container,
   Paper,
-  alpha
-} from '@mui/material';
-import { setUserRole } from '../slices/userSlice';
+  alpha,
+} from "@mui/material";
+import { setUserRole } from "../slices/userSlice";
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -22,41 +22,52 @@ const Login: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (username && password) {
-      dispatch(setUserRole('user'));
-      const from = location.state?.from?.pathname || '/';
+      dispatch(setUserRole("user"));
+      const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100%",
+        flex: 1,
+      }}
+    >
       <Box
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100%",
         }}
       >
-        <Paper 
+        <Paper
           elevation={0}
-          sx={{ 
-            p: 4, 
-            width: '100%',
+          sx={{
+            p: 4,
+            width: "100%",
             background: (theme) => alpha(theme.palette.background.paper, 0.8),
-            backdropFilter: 'blur(10px)',
-            borderRadius: '16px',
-            border: '1px solid',
+            backdropFilter: "blur(10px)",
+            borderRadius: "16px",
+            border: "1px solid",
             borderColor: (theme) => alpha(theme.palette.divider, 0.1),
           }}
         >
-          <Typography 
-            component="h1" 
-            variant="h5" 
-            sx={{ 
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{
               mb: 3,
               fontWeight: 600,
-              textAlign: 'center',
+              textAlign: "center",
               color: (theme) => theme.palette.text.primary,
             }}
           >
@@ -75,11 +86,13 @@ const Login: React.FC = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '12px',
-                  backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.5),
-                  '&:hover': {
-                    backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.7),
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "12px",
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.background.paper, 0.5),
+                  "&:hover": {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.background.paper, 0.7),
                   },
                 },
               }}
@@ -96,11 +109,13 @@ const Login: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               sx={{
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '12px',
-                  backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.5),
-                  '&:hover': {
-                    backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.7),
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "12px",
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.background.paper, 0.5),
+                  "&:hover": {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.background.paper, 0.7),
                   },
                 },
               }}
@@ -112,14 +127,14 @@ const Login: React.FC = () => {
               sx={{
                 mt: 3,
                 mb: 2,
-                borderRadius: '12px',
+                borderRadius: "12px",
                 py: 1.5,
-                textTransform: 'none',
-                fontSize: '1rem',
+                textTransform: "none",
+                fontSize: "1rem",
                 fontWeight: 500,
-                boxShadow: 'none',
-                '&:hover': {
-                  boxShadow: 'none',
+                boxShadow: "none",
+                "&:hover": {
+                  boxShadow: "none",
                 },
               }}
             >

@@ -1,26 +1,32 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { CssBaseline, Box } from '@mui/material';
-import Header from './layout/Header';
-import Sidebar from './layout/Sidebar';
-import Footer from './layout/Footer';
-import ProtectedRoute from './routes/ProtectedRoute';
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login';
-import { useSelector } from 'react-redux';
-import { RootState } from './store';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { CssBaseline, Box } from "@mui/material";
+import Header from "./layout/Header";
+import Sidebar from "./layout/Sidebar";
+import Footer from "./layout/Footer";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
 
 const App: React.FC = () => {
   const userRole = useSelector((state: RootState) => state.user?.role);
 
   return (
     <BrowserRouter>
-      <CssBaseline />
-      <div className="app">
+      <Box
+        className="app-container"
+        sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
+        <CssBaseline />
         <Header />
-        <div className="main-container">
+        <Box sx={{ display: "flex", flexGrow: 1 }}>
           {userRole && <Sidebar />}
-          <Box component="main" sx={{ flexGrow: 1, p: 3, bgcolor: 'background.default' }}>
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, p: 3, bgcolor: "background.default" }}
+          >
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route
@@ -33,9 +39,9 @@ const App: React.FC = () => {
               />
             </Routes>
           </Box>
-        </div>
+        </Box>
         <Footer />
-      </div>
+      </Box>
     </BrowserRouter>
   );
 };
