@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import EmployeeRoutes from "./routes/EmployeeRoutes"; // Import Employee Routes
 import { CssBaseline, Box } from "@mui/material";
 import Header from "./layout/Header";
 import Sidebar from "./layout/Sidebar";
@@ -28,6 +29,10 @@ const App: React.FC = () => {
             sx={{ flexGrow: 1, p: 3, bgcolor: "background.default" }}
           >
             <Routes>
+              <Route path="/employee/*" element={<EmployeeRoutes />} />{" "}
+              {/* Employee routes */}
+              <Route path="/employee/*" element={<EmployeeRoutes />} />{" "}
+              {/* Employee routes */}
               <Route path="/login" element={<Login />} />
               <Route
                 path="/"

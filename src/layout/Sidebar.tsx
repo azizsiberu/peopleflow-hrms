@@ -1,94 +1,57 @@
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Drawer, 
-  List, 
-  ListItem, 
-  ListItemIcon, 
-  ListItemText, 
-  ListItemButton,
+import React from "react";
+import {
+  List,
+  ListItem,
+  ListItemText,
   Box,
-  alpha
-} from '@mui/material';
-import { RiDashboardLine, RiTeamLine, RiTaskLine } from 'react-icons/ri';
-
-const drawerWidth = 240;
-
-const menuItems = [
-  { text: 'Dashboard', icon: <RiDashboardLine size={22} />, path: '/' },
-  { text: 'Users', icon: <RiTeamLine size={22} />, path: '/users' },
-  { text: 'Tasks', icon: <RiTaskLine size={22} />, path: '/tasks' }
-];
+  ListItemButton,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { menuItemsByRole } from "../utils/menuConfig";
+import { Role } from "../utils/role"; // Ensure Role is imported correctly
+import { Link } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const userRole = useSelector((state: RootState) => state.user?.role);
+
+  const role = Number(userRole);
+
+  if (!(role in menuItemsByRole)) {
+    return null; // or a loading state
+  }
+
+  const menuItems = menuItemsByRole[role as Role];
+
+  // Handle case where menu items are undefined
+  if (!menuItems) {
+    return <div>No menu items available for your role.</div>;
+  }
 
   return (
-    <Drawer
-      variant="permanent"
+    <Box
       sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: drawerWidth,
-          boxSizing: 'border-box',
-          borderRight: '1px solid',
-          borderColor: (theme) => alpha(theme.palette.divider, 0.1),
-          backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.8),
-          backdropFilter: 'blur(10px)',
-        },
+        width: "100%",
+        position: "sticky",
+        bottom: 0,
+        bgcolor: "background.paper",
+        boxShadow: 3,
       }}
     >
-      <Box sx={{ overflow: 'auto', mt: 1 }}>
-        <List>
-          {menuItems.map((item) => (
-            <ListItem key={item.text} disablePadding sx={{ px: 2, py: 0.5 }}>
-              <ListItemButton
-                selected={location.pathname === item.path}
-                onClick={() => navigate(item.path)}
-                sx={{
-                  borderRadius: '12px',
-                  '&.Mui-selected': {
-                    backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
-                    color: 'primary.main',
-                    '&:hover': {
-                      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2),
-                    },
-                    '& .MuiListItemIcon-root': {
-                      color: 'primary.main',
-                    },
-                  },
-                  '&:hover': {
-                    backgroundColor: (theme) => alpha(theme.palette.action.hover, 0.1),
-                  },
-                }}
-              >
-                <ListItemIcon 
-                  sx={{ 
-                    minWidth: 40,
-                    color: (theme) => location.pathname === item.path 
-                      ? theme.palette.primary.main 
-                      : theme.palette.text.secondary
-                  }}
-                >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText 
-                  primary={item.text} 
-                  sx={{
-                    '& .MuiTypography-root': {
-                      fontWeight: 500,
-                      fontSize: '0.95rem',
-                    },
-                  }}
-                />
+      <List>
+        {menuItems.map(
+          (
+            item: { label: string; path: string } // Define item type
+          ) => (
+            <ListItem key={item.label}>
+              <ListItemButton component={Link} to={item.path}>
+                <ListItemText primary={item.label} />
               </ListItemButton>
             </ListItem>
-          ))}
-        </List>
-      </Box>
-    </Drawer>
+          )
+        )}
+      </List>
+    </Box>
   );
 };
 

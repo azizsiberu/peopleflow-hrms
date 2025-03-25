@@ -1,19 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface User {
+  username: string;
+  role: string;
+}
 
 interface UserState {
-  role: string | null; // Define the role as a string or null
+  user: User | null; // Define the user as User type or null
+  role: string | null; // Keep the role for backward compatibility
 }
 
 const initialState: UserState = {
+  user: null, // Initial user is null
   role: null, // Initial role is null
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
-    setUserRole(state, action: PayloadAction<string>) {
-      state.role = action.payload; // Update the role
+    setDemoUser(state, action: PayloadAction<User>) {
+      state.user = action.payload; // Set the demo user
+      state.role = action.payload.role; // Update the role based on the user
     },
     clearUserRole(state) {
       state.role = null; // Clear the role
@@ -22,7 +30,7 @@ const userSlice = createSlice({
 });
 
 // Export actions
-export const { setUserRole, clearUserRole } = userSlice.actions;
+export const { clearUserRole, setDemoUser } = userSlice.actions;
 
 // Export the reducer
 export default userSlice.reducer;

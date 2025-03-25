@@ -10,7 +10,8 @@ import {
   Paper,
   alpha,
 } from "@mui/material";
-import { setUserRole } from "../slices/userSlice";
+import { setDemoUser } from "../slices/userSlice";
+import demoUsers from "../utils/demoUsers"; // Import demo users
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -22,7 +23,12 @@ const Login: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (username && password) {
-      dispatch(setUserRole("user"));
+      const demoUser = demoUsers.find(
+        (user) => user.username === username && user.password === password
+      );
+      if (demoUser) {
+        dispatch(setDemoUser(demoUser)); // Set demo user with role
+      }
       const from = location.state?.from?.pathname || "/";
       navigate(from, { replace: true });
     }
