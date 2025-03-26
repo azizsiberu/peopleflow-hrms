@@ -11,7 +11,7 @@ import {
   alpha,
 } from "@mui/material";
 import { setDemoUser } from "../slices/userSlice";
-import demoUsers from "../utils/demoUsers"; // Import demo users
+import { loginUser } from "../api/auth";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -20,17 +20,17 @@ const Login: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username && password) {
-      const demoUser = demoUsers.find(
-        (user) => user.username === username && user.password === password
-      );
-      if (demoUser) {
-        dispatch(setDemoUser(demoUser)); // Set demo user with role
+      try {
+        const data = await loginUser(username, password);
+        dispatch(setDemoUser({ username: data.username, role: data.role }));
+        const from = location.state?.from?.pathname || "/";
+        navigate(from, { replace: true });
+      } catch (error) {
+        console.error("Login error:", error);
       }
-      const from = location.state?.from?.pathname || "/";
-      navigate(from, { replace: true });
     }
   };
 
