@@ -2,17 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface User {
   username: string;
-  role: string;
+  role: number;
+  roleLabel: string;
 }
 
 interface UserState {
-  user: User | null; // Define the user as User type or null
-  role: string | null; // Keep the role for backward compatibility
+  user: User | null;
+  role: number | null;
+  roleLabel: string | null;
 }
 
 const initialState: UserState = {
   user: null, // Initial user is null
   role: null, // Initial role is null
+  roleLabel: null,
 };
 
 const userSlice = createSlice({
@@ -20,8 +23,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setDemoUser(state, action: PayloadAction<User>) {
-      state.user = action.payload; // Set the demo user
-      state.role = action.payload.role; // Update the role based on the user
+      state.user = action.payload;
+      state.role = action.payload.role;
+      state.roleLabel = action.payload.roleLabel;
     },
     clearUserRole(state) {
       state.role = null; // Clear the role

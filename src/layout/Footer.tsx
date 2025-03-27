@@ -1,5 +1,14 @@
 import React from "react";
 import { Box, Typography, alpha } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGauge,
+  faUsers,
+  faTasks,
+  faRightFromBracket,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Footer: React.FC = () => {
   return (

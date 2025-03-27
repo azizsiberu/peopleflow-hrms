@@ -1,6 +1,8 @@
-import React from 'react';
-import { Box, Typography, Grid, Paper, alpha } from '@mui/material';
-import { RiBarChartLine, RiTeamLine, RiTaskLine } from 'react-icons/ri';
+import React from "react";
+import { Box, Typography, Grid, Paper, alpha } from "@mui/material";
+import { useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGauge, faUsers, faTasks } from "@fortawesome/free-solid-svg-icons";
 
 interface StatCardProps {
   title: string;
@@ -13,26 +15,26 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon }) => (
     elevation={0}
     sx={{
       p: 3,
-      height: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-      borderRadius: '16px',
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      borderRadius: "16px",
       background: (theme) => alpha(theme.palette.background.paper, 0.8),
-      backdropFilter: 'blur(10px)',
-      border: '1px solid',
+      backdropFilter: "blur(10px)",
+      border: "1px solid",
       borderColor: (theme) => alpha(theme.palette.divider, 0.1),
     }}
   >
-    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
       <Box
         sx={{
           p: 1,
-          borderRadius: '12px',
+          borderRadius: "12px",
           backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.1),
-          color: 'primary.main',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          color: "primary.main",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
         {icon}
@@ -61,8 +63,21 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, icon }) => (
 );
 
 const Dashboard: React.FC = () => {
+  const user = useSelector((state: any) => state.user.user);
+
   return (
     <Box sx={{ p: 3 }}>
+      {user?.role && (
+        <Typography
+          variant="h6"
+          sx={{
+            mb: 1,
+            color: (theme) => theme.palette.text.secondary,
+          }}
+        >
+          Welcome, {user.roleLabel}
+        </Typography>
+      )}
       <Typography
         variant="h4"
         sx={{
@@ -78,21 +93,21 @@ const Dashboard: React.FC = () => {
           <StatCard
             title="Active Users"
             value="2,345"
-            icon={<RiTeamLine size={24} />}
+            icon={<FontAwesomeIcon icon={faUsers} />}
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <StatCard
             title="Total Tasks"
             value="12,456"
-            icon={<RiTaskLine size={24} />}
+            icon={<FontAwesomeIcon icon={faTasks} />}
           />
         </Grid>
         <Grid item xs={12} md={4}>
           <StatCard
             title="Progress"
             value="85%"
-            icon={<RiBarChartLine size={24} />}
+            icon={<FontAwesomeIcon icon={faGauge} />}
           />
         </Grid>
       </Grid>

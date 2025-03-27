@@ -5,8 +5,8 @@ import { CssBaseline, Box } from "@mui/material";
 import Header from "./layout/Header";
 import Sidebar from "./layout/Sidebar";
 import Footer from "./layout/Footer";
+import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
@@ -35,7 +35,7 @@ const App: React.FC = () => {
               {/* Employee routes */}
               <Route path="/login" element={<Login />} />
               <Route
-                path="/"
+                path="/dashboard"
                 element={
                   <ProtectedRoute>
                     <Dashboard />

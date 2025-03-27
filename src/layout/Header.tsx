@@ -2,9 +2,10 @@ import React from "react";
 import { AppBar, Toolbar, Typography, Button, Box, alpha } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RiLogoutBoxLine } from "react-icons/ri";
 import { RootState } from "../store";
 import { clearUserRole } from "../slices/userSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Header: React.FC = () => {
             <Button
               color="primary"
               onClick={handleLogout}
-              startIcon={<RiLogoutBoxLine size={20} />}
+              startIcon={<FontAwesomeIcon icon={faRightFromBracket} />}
               sx={{
                 textTransform: "none",
                 borderRadius: "12px",

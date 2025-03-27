@@ -9,27 +9,48 @@ import {
   Container,
   Paper,
   alpha,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { setDemoUser } from "../slices/userSlice";
 import { loginUser } from "../api/auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+
+  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username && password) {
       try {
         const data = await loginUser(username, password);
-        dispatch(setDemoUser({ username: data.username, role: data.role }));
-        const from = location.state?.from?.pathname || "/";
-        navigate(from, { replace: true });
+        console.log(
+          "Logged in user role:",
+          data.role,
+          "(",
+          data.roleLabel,
+          ")"
+        );
+        dispatch(
+          setDemoUser({
+            username: data.username,
+            role: data.role,
+            roleLabel: data.roleLabel,
+          })
+        );
+        navigate("/dashboard", { replace: true });
       } catch (error) {
         console.error("Login error:", error);
+        setErrorMessage("Username atau password salah.");
       }
     }
   };
@@ -109,11 +130,24 @@ const Login: React.FC = () => {
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleTogglePassword} edge="end">
+                      {showPassword ? (
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                      ) : (
+                        <FontAwesomeIcon icon={faEye} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   borderRadius: "12px",
@@ -146,6 +180,11 @@ const Login: React.FC = () => {
             >
               Sign In
             </Button>
+            {errorMessage && (
+              <Typography color="error" sx={{ mt: 1, fontSize: "0.875rem" }}>
+                {errorMessage}
+              </Typography>
+            )}
           </Box>
         </Paper>
       </Box>
